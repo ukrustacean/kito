@@ -1,5 +1,7 @@
 # Kito
 
+> Kito is temporarily in research phase. Development will continue after I figure out more details on the design I want to get as the result. 
+
 Kito is a functional programming language from ML family specifically designed with competitive programming in the mind. It's heavily inspired by F#, OCaml, Rust and Go. Written in [Orthodox C++](https://gist.github.com/bkaradzic/2e39896bc7d8c34e042b).
 
 Design goals of the Kito:
