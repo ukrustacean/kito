@@ -1,4 +1,4 @@
-FILES = kito.cpp
+SRC = Kito.cc
 
 all:
-	$(CXX) $(FILES) -o kito
+	$(CXX) $(SRC) -std=c++98 -o kito

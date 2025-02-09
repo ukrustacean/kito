@@ -15,6 +15,7 @@ void PrintHelp(string name);
 int RunFile(string source);
 int TranspileFile(string source);
 int CompileFile(string source);
+void Tokenize(string source);
 
 int main(const int argc, const string argv[]) {
     if (argc < 1) {
