@@ -11,12 +11,12 @@
 
 typedef char *string;
 
-void PrintHelp(const string name);
-int RunFile(const string source);
-int TranspileFile(const string source);
-int CompileFile(const string source);
+void PrintHelp(string name);
+int RunFile(string source);
+int TranspileFile(string source);
+int CompileFile(string source);
 
-int main(int argc, const string argv[]) {
+int main(const int argc, const string argv[]) {
     if (argc < 1) {
         printf("Can't get program's name");
         return 1;
@@ -42,12 +42,10 @@ void PrintHelp(const string name) {
     printf("Usage: %s COMMAND [PARAMETERS]\n", name);
     printf("Available commands:\n");
     printf("\tr, run FILE  -  interpret a file with Kito source code\n");
-    printf("\tt, trans, transpile FILE  -  transpile a file with Kito source code to C++ source file\n");
     printf("\tc, comp, compile FILE  -  compile a file with Kito source code to executable file via system C++ compiler\n");
     printf("\th, help ?COMMAND  -  print out a help message for the specified command or a general help if not specified\n");
 }
 
 
 int RunFile(const string source) { TODO; }
-int TranspileFile(const string source) { TODO; }
 int CompileFile(const string source) { TODO; }
