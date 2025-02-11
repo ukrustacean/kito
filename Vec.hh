@@ -6,47 +6,47 @@
 
 template <typename T>
 struct Vec {
-  T* data;
-  size_t length, capacity;
+  T* Data;
+  size_t Length, Capacity;
 
   Vec() {
-    length = 0;
-    capacity = 1;
+    Length = 0;
+    Capacity = 1;
 
-    data = malloc(sizeof(T) * capacity);
+    Data = (T*)malloc(sizeof(T) * Capacity);
   }
 
   ~Vec() {
-    free(data);
+    free(Data);
   }
 
-  void push(T val) {
-    if (capacity == length) {
-      capacity *= 2;
-      data = realloc(data, capacity * sizeof(T));
+  void Push(T val) {
+    if (Capacity == Length) {
+      Capacity *= 2;
+      Data = (T*)realloc(Data, Capacity * sizeof(T));
     }
 
-    data[length] = val;
-    length += 1;
+    Data[Length] = val;
+    Length += 1;
   }
 
-  T pop() {
-    if (length == 0) {
+  T Pop() {
+    if (Length == 0) {
       printf("Error: empty Vec\n");
       exit(-1);
     }
 
-    length -= 1;
-    return data[length];
+    Length -= 1;
+    return Data[Length];
   }
 
-  T& operator[](size_t index) {
-    if (index < 0 || index >= length) {
+  T& operator[](size_t index) const {
+    if (Length <= index) {
       printf("Error: index out of bounds\n");
       exit(-1);
     }
 
-    return data[index];
+    return Data[index];
   }
 };
 
