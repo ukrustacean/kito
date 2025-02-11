@@ -1,4 +1,5 @@
-SRC = Kito.cc
+SRC = Kito.cc String.cc
+FLAGS = -Wall -Wextra -Wpedantic -std=c++98
 
 all:
-	$(CXX) $(SRC) -std=c++98 -o kito
+	$(CXX) $(SRC) $(FLAGS) -o kito
