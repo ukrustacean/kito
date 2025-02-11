@@ -5,19 +5,16 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+
+#include "String.hh"
 
 #define TODO do { printf(__FUNCTION__); printf(" is not yet implemented.\n"); exit(1); } while (0)
 
-typedef char *string;
+void PrintHelp(const String& name);
+int RunFile(const String& source);
+int CompileFile(const String& source);
 
-void PrintHelp(string name);
-int RunFile(string source);
-int TranspileFile(string source);
-int CompileFile(string source);
-void Tokenize(string source);
-
-int main(const int argc, const string argv[]) {
+int main(const int argc, const char *argv[]) {
     if (argc < 1) {
         printf("Can't get program's name");
         return 1;
@@ -28,19 +25,31 @@ int main(const int argc, const string argv[]) {
         return 1;
     }
 
-    if (!strcmp(argv[1], "r") || !strcmp(argv[1], "run")) {
+    String command = argv[1];
+
+    if (command == "r" || command == "run") {
         if (argc < 3) {
             printf("ERROR: No files were provided for the run command");
             return 1;
         }
-        RunFile(argv[2]);
+        RunFile(command);
+        return 0;
     }
 
-    return 0;
+    if (command ==  "c" || command == "comp" || command == "compile") {
+        if (argc < 3) {
+            printf("ERROR: No files were provided for the run command");
+            return 1;
+        }
+        CompileFile(command);
+        return 0;
+    }
+
+    printf("ERROR: Unknown command `%s`", command.CStr());
 }
 
-void PrintHelp(const string name) {
-    printf("Usage: %s COMMAND [PARAMETERS]\n", name);
+void PrintHelp(const String& name) {
+    printf("Usage: %s COMMAND [PARAMETERS]\n", name.CStr());
     printf("Available commands:\n");
     printf("\tr, run FILE  -  interpret a file with Kito source code\n");
     printf("\tc, comp, compile FILE  -  compile a file with Kito source code to executable file via system C++ compiler\n");
@@ -48,5 +57,5 @@ void PrintHelp(const string name) {
 }
 
 
-int RunFile(const string source) { TODO; }
-int CompileFile(const string source) { TODO; }
+int RunFile(const String& source) { TODO; }
+int CompileFile(const String& source) { TODO; }
