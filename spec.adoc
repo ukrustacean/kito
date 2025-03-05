@@ -1,0 +1,169 @@
+= SPEC-1: Kito Programming Language \:sectnums: \:toc:
+
+== Background
+
+Kito is a new programming language designed to bridge the gap between Python’s extensive ecosystem and the strong functional programming paradigms found in ML-family languages such as OCaml or F#.
+
+The core motivation behind Kito is to provide developers — particularly data scientists, machine learning engineers, and backend developers — with a language that offers:
+
+- Seamless interoperability with Python libraries, particularly in scientific computing and machine learning.
+- A modern, functional syntax with type inference, immutability by default, and pattern matching.
+- Compile-time metaprogramming capabilities inspired by Zig’s `comptime`, enabling generation of types, validation, and high-performance specialized code paths at compile time.
+
+By compiling directly to CPython VM bytecode, Kito aims to be a first-class citizen within Python ecosystems, allowing developers to mix and match Kito and Python codebases without friction.
+
+== Requirements
+
+The following requirements define the initial scope and expectations for Kito’s design and implementation:
+
+=== Must Have
+
+- Functional programming language with syntax inspired by ML-family languages (OCaml, F#).
+- Seamless interoperability with Python, including:
+  - Direct invocation of Python functions and classes.
+  - Importing and using Python standard library modules.
+  - Calling Kito functions from Python.
+- Compilation target: CPython VM bytecode (Python 3.12+).
+- Static type system with strong type inference.
+- Compile-time metaprogramming system (`const`) allowing:
+  - Type generation.
+  - Compile-time computations and validations.
+  - Performance optimizations via specialization.
+- Both mutable and immutable data structures, similar to F#.
+- Ability to produce:
+  - Standalone executables embedding CPython.
+  - Importable modules that can be used directly in Python scripts.
+
+=== Should Have
+
+- Pattern matching as a first-class language feature.
+- Expression-based syntax with minimal ceremony.
+- Comprehensive standard library, particularly for:
+  - Collections and functional utilities.
+  - Interoperability helpers for Python bridging.
+- Tooling support for:
+  - Language Server Protocol (LSP).
+  - Formatter and static analyzer.
+
+=== Could Have
+
+- Optional tooling for automatic conversion of Python functions to Kito stubs.
+- Interactive REPL with Python compatibility.
+
+=== Won’t Have (for initial MVP)
+
+- Marking pure functions or enforcing purity at language level.
+- Runtime environment independent of CPython (no separate Kito VM).
+
+== Method
+
+=== Language Syntax and Semantics
+
+Kito's syntax blends elements of ML-family languages with pragmatic features aimed at mixed-functional and interop-friendly programming. The core syntax principles are:
+
+- Function definitions use `fn`, with **braces for blocks**.
+- Pattern matching is a first-class control structure.
+- UFCS (Uniform Function Call Syntax) allows calling methods in both `func(obj, arg)` and `obj.func(arg)` styles.
+- **Partial application using underscores (**\`\`**)** allows creating function stubs without full currying.
+
+Example:
+
+```kito
+// Function definition
+let add = fn (x: int, y: int) -> int {
+    x + y
+}
+
+// Partial application
+let addFive = add(5, _)
+
+let result = addFive(3)
+
+// Pattern matching
+match result {
+    8 -> print("Correct!")
+    _ -> print("Unexpected result: {}", result)
+}
+
+// UFCS example
+"Hello".replace("H", "J") // equivalent to replace("Hello", "H", "J")
+```
+
+- **Functions are values**, allowing first-class functional composition.
+- **Expressions return values**, even from control structures.
+- **Mutable and immutable variables coexist**, similar to F#'s `let` (immutable) and `mutable` for mutables.
+
+```kito
+let x = 10   // immutable
+mutable y = 20   // mutable
+
+y = y + 1    // valid mutation
+```
+
+- **Modules map directly to Python modules**, enabling seamless interop with Python.
+
+=== Python Interop and Data Model
+
+- **Automatic Type Coercion:** Kito’s core types (list, dict, set, string, int, float, bool) automatically convert to and from their Python equivalents.
+
+- **Direct Module Imports:** Python modules can be imported directly into Kito code using the standard `import` syntax.
+
+- **Direct Object Access:** Python objects behave like Kito objects for attribute and method access.
+
+- **Functions are Interchangeable:** Python and Kito functions share a compatible calling convention.
+
+- **Python Exceptions:** Propagated into Kito exceptions.
+
+- **Duck Typing for Python:** Dynamic attributes on Python objects are accessible in Kito.
+
+=== Compile-Time (const) System
+
+Kito provides a `const` system for compile-time metaprogramming, allowing:
+
+- Compile-time evaluation of blocks and functions.
+- Python execution and module introspection during compilation.
+- Generation of types and functions.
+- Performance optimizations via static dispatch and unrolling.
+
+=== Compilation Pipeline
+
+## [plantuml]
+
+## @startuml (*) --> "Source Code Parsing" --> "AST Creation" --> "Const Processing" --> "Type Inference & Checking" --> "Python Interop Linking" --> "CPython Bytecode Generation" --> "Write to .pyc or Executable" --> (*) @enduml
+
+=== Standard Library Layout
+
+- `std.collections`: Functional utilities (map, filter, reduce).
+- `std.functional`: Core FP helpers (compose, pipe).
+- `std.io`: Basic I/O utilities.
+- `std.pyinterop`: Python object inspection and bridging tools.
+
+== Implementation
+
+See previous section for step-by-step implementation guidance covering lexer, parser, const processing, type inference, Python interop, bytecode generation, standard library, and CLI.
+
+== Milestones
+
+Milestones cover:
+
+- Core parsing and AST creation.
+- Const system processing.
+- Type inference.
+- Python interop.
+- Direct bytecode generation.
+- Standard library delivery.
+- CLI development.
+- Documentation and examples.
+- Feedback loop and refinement.
+
+== Gathering Results
+
+Evaluation covers:
+
+- Functional completeness against the requirements.
+- Interop quality with Python.
+- Developer productivity and feedback.
+- Performance relative to Python.
+- Adoption metrics (downloads, real-world use cases).
+- Iterative feedback for future enhancements.
+
