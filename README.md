@@ -1,5 +1,6 @@
 # Kito
 
-Kito is a new programming language designed to bridge the gap between Python’s extensive ecosystem and the strong functional programming paradigms found in ML-family languages such as OCaml or F#.
+> [!WARNING]
+> Kito is archived because I can't decide yet what I want Kito to be, therefore I will be making some other programming languages to get some experience and come back with more ideas
 
-For details look in [spec.adoc](./spec.adoc)
+Kito is a new programming language designed to... (coming soon)
